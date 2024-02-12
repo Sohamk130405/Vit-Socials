@@ -7,7 +7,7 @@
     <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-xs-1 g-6 mt-3">
         <% if (allNotices.length > 0) { %>
           <% allNotices.forEach(notice => { %>
-                  <% if( (( currUser.year === notice.year || currUser.year === "All" ) && ( currUser.branch === notice.branch || currUser.branch === "All" ) ) || currUser._id.equals(notice.author)) { %> 
+                  <% if( (( currUser.year === notice.year || notice.year === "All" ) && ( currUser.branch === notice.branch || notice.branch === "All" ) ) || currUser._id.equals(notice.author)) { %> 
                     <div class="alert <%= currUser._id.equals(notice.author)? "alert-success" : "alert-info"  %> notice col pt-3 m-2" role="alert">
                       <div class="card-text">
                         <b><%= notice.title %></b>
