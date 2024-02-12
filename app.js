@@ -224,26 +224,12 @@ app.post("/:userId", isLoggedIn, wrapAsync(async (req, res) => {
   await User.findByIdAndUpdate(req.params.userId, { status: req.body.status });
   req.flash("success", "Account Verified Successfully");
 
-  client.messages
-  .create({
-     body: `This account verification message send by Vit Socials that your account was verified successfully`,
-     from: '+12059315725',
-     to: '+919359954501'
-   })
-  .then(message => console.log(message.sid));
 
   res.redirect("/posts");
 }));
 
 app.delete("/:userId", isLoggedIn, wrapAsync(async (req, res) => {
   await User.findByIdAndDelete(req.params.userId);
-  client.messages
-  .create({
-     body: `This account verification message send by Vit Socials that your account was rejected contact admin for more details `,
-     from: '+12059315725',
-     to: '+919359954501'
-   })
-  .then(message => console.log(message.sid));
   req.flash("success", "Account Rejected Successfully");
   res.redirect("/posts");
 }));
