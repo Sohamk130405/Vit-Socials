@@ -2,7 +2,7 @@
 
 <% if (currUser.type === "Admin") { %>
   <h3>Admin Portal</h3>
-  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 g-6 mt-3">
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-1 g-6 mt-3">
     <% if (Users.length > 1) { %>
       <% Users.forEach(user => { %>
         <% if (user.status === "Not Verified" && user.type !== "Admin") { %>
@@ -43,7 +43,7 @@
         <h3>Welcome <%= currUser.name %></h3>
       <% } %>
     </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xxs-1 g-6 mt-3">
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-1 g-6 mt-3">
       <% if (allPosts.length > 0) { %>
         <% allPosts.forEach(post => { %>
           <div class="card col listing-card pt-3" onclick="location.href='/posts/<%= post._id%>'">
