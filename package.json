@@ -31,7 +31,6 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
-    "profanity-filter": "^0.2.1",
-    "twilio": "^4.22.0"
+    "profanity-filter": "^0.2.1"
   }
 }

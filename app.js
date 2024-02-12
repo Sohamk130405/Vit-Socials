@@ -66,11 +66,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// twilio api
-const accountSid = process.env.APISID;
-const authToken = process.env.APITOKEN;
 
-const client = require('twilio')(accountSid, authToken);
 
 // Database Connection
 const dbUrl = process.env.DBURL;
