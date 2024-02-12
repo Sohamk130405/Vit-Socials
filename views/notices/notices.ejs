@@ -1,6 +1,6 @@
 <% layout('/layouts/boilerplate') -%>
 
-<% if ( currUser && currUser.status === "Verified"){ %>
+<% if ( (currUser && currUser.status === "Verified") || currUser.type === "Admin"){ %>
     <div class="row mt-2">
         <h4>Notices</h4>
     </div>
