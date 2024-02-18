@@ -12,3 +12,9 @@ window.addEventListener("beforeunload", () => {
       localStorage.removeItem("scrollPosition"); // Optional: Clear the stored position
     }
   });
+
+   // Add JavaScript to toggle visibility of containers on small screens
+   document.getElementById('toggle').addEventListener('click', function() {
+    document.querySelector('.admin').classList.toggle('d-none');
+    document.querySelector('.posts').classList.toggle('d-none');
+  });

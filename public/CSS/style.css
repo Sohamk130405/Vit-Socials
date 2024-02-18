@@ -141,3 +141,9 @@ body{
   object-fit: cover;
   position: relative;
 }
+
+.show-img{
+  height: 500px !important;
+}
+
+/* Admin Page */

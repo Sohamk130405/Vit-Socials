@@ -1,10 +1,53 @@
 <% layout('/layouts/boilerplate') -%>
-  <% if (currUser && currUser.status === "Verified") { %>
-    <div class="row mt-2">
-      <% if (currUser) { %>
-        <h3>Welcome <%= currUser.name %></h3>
+<div class="btn-group mt-3 d-flex justify-center align-ceneter" role="group">
+  <button type="button" class="btn btn-secondary m-1" id="toggle">Admin <i class="fa-solid fa-arrow-right-arrow-left"></i> Posts</button>
+</div>
+<div class="row admin-page">
+  <div class="admin">
+    <% if (currUser.type === "Admin") { %>
+      <h3 class="text-center">Verification Portal</h3>
+      <% if (Users.length) { %>
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-1 mt-3">
+          <% Users.forEach(user => { %>
+            <% if (user.status === "Not Verified" && user.type !== "Admin") { %>
+              <div class="card m-1" style="width: 540px;">
+                <div class="row g-0 p-3">
+                  <div class="col-md-4">
+                    <img src="<%= user.idCard %>" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= user.type %> Verification</h5>
+                      <p class="card-text">Name: <%= user.name %></p>
+                      <p class="card-text">Username: <%= user.username %></p>
+                      <p class="card-text">Email: <%= user.email %></p>
+                      <p class="card-text"><%= user.branch %> , <%= user.year %> Year</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row p-3">
+                  <form action="/<%= user._id %>" method="post" class="col-md-4">
+                    <input type="hidden" name="status" value="Verified">
+                    <button class="btn btn-success add-btn mt-1">Verify</button>
+                  </form>
+                  <form action="/<%= user._id %>?_method=DELETE" method="post" class="col-md-4">
+                    <input type="hidden" name="status" value="Not Verified">
+                    <button class="btn btn-dark del-btn mt-1">Reject</button>
+                  </form>
+                </div>
+              </div>
+            <% } %>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="text-center mt-3">No verifications pending.</p>
       <% } %>
-    </div>
+    <% } %>
+  </div>
+  
+  
+  <div class="posts d-none">
+    <h3 class="text-center">Posts</h3>
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-1 g-6 mt-3">
       <% if (allPosts.length > 0) { %>
         <% allPosts.forEach(post => { %>
@@ -57,6 +100,7 @@
                     <% } %>
                     </form>
                   </div>
+  
                 </div>
               </div>
             <% } %>
@@ -68,9 +112,5 @@
         </div>
       <% } %>
     </div>
-  <% } else if (currUser && currUser.status === "Not Verified") { %>
-    <div class="alert alert-info mt-2" role="alert">
-      Your verification is in process! You will receive an email once the account gets verified.
-    </div>
-  <% } %>
-
+  </div>
+</div>

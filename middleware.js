@@ -20,30 +20,63 @@ module.exports.saveRedirectUrl = (req,res,next)=>{
       next();
 };
 
-module.exports.isOwner = async ( req, res, next) =>{
-  let id = req.params.id;
-  let post = await Post.findById(id);
-  if(!post.owner.equals(res.locals.currUser._id)){
-    req.flash("error","You dont have permission to edit");
-    return res.redirect(`/posts/${id}`);
-  };
-  next();
-};
+module.exports.isOwner = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const post = await Post.findById(id);
 
+    if (!post) {
+      req.flash("error", "Post not found");
+      return res.redirect("/posts");
+    }
 
-module.exports.isCommentAuthor = async ( req, res, next) =>{
-  let commentId = req.params.commentId;
-  let comment = await Comment.findById(commentId);
-  if(!comment.author.equals(res.locals.currUser._id)){
-    req.flash("error","You dont have permission to delete comment of other authors");
+    const isAdmin = res.locals.currUser && res.locals.currUser.type === "Admin";
+
+    if (!(post.user.equals(res.locals.currUser._id) || isAdmin)) {
+      req.flash("error", "You don't have permission to make changes");
+      return res.redirect(`/posts/${id}`);
+    }
+
+    next();
+  } catch (error) {
+    console.error("Error in isOwner middleware:", error);
+    req.flash("error", "An error occurred");
     return res.redirect("/posts");
-  };
-  next();
+  }
 };
+
+
+module.exports.isCommentAuthor = async (req, res, next) => {
+  try {
+    const commentId = req.params.commentId;
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      req.flash("error", "Comment not found");
+      return res.redirect("/posts");
+    }
+
+    const isAdmin = res.locals.currUser && res.locals.currUser.type === "Admin";
+
+    if (!(comment.author.equals(res.locals.currUser._id) || isAdmin)) {
+      req.flash("error", "You don't have permission to delete comments of other authors");
+      return res.redirect("/posts");
+    }
+
+    next();
+  } catch (error) {
+    console.error("Error in isCommentAuthor middleware:", error);
+    req.flash("error", "An error occurred");
+    return res.redirect("/posts");
+  }
+};
+
 
 module.exports.validatePosts = (req,res,next)=>{
 
-    let { error } = postSchema.validate(req.body);
+  console.log("Request Body:", req.body);
+  let { error } = postSchema.validate(req.body);
+  console.log("Validation Error:", error);
     if (error) {
       let errMsg = error.details.map((el) => el.message).join(",");
       throw new ExpressError(400, errMsg);

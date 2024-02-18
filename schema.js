@@ -1,3 +1,4 @@
+// schema.js
 const Joi = require('joi');
 
 const postSchema = Joi.object({
@@ -6,24 +7,20 @@ const postSchema = Joi.object({
   image: Joi.string().optional(),
 });
 
-module.exports = postSchema;
-
-
-module.exports.commentSchema = Joi.object({
+const commentSchema = Joi.object({
     comment : Joi.object({
         comment: Joi.string().required(),
     }).required(),
 });
 
-module.exports.noticeSchema = Joi.object({
+const noticeSchema = Joi.object({
   notice : Joi.object({
       title: Joi.string().required(),
       description: Joi.string().required(),
   }).required(),
 });
 
-
-module.exports = userSchema = Joi.object({
+const userSchema = Joi.object({
   username: Joi.string().required(),
   name: Joi.string().required(),
   email: Joi.string().email().regex(/^[a-zA-Z0-9._-]+@vit\.edu$/).required(),
@@ -35,3 +32,10 @@ module.exports = userSchema = Joi.object({
   year: Joi.string().required(),
   type: Joi.string().required(),
 });
+
+module.exports = {
+  postSchema,
+  commentSchema,
+  noticeSchema,
+  userSchema,
+};
